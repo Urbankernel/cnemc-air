@@ -1,0 +1,2 @@
+# 导出 GPKG/SHP 矢量成果时需要的可选依赖
+geopandas>=1.0

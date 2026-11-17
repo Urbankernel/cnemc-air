@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cnemc-air"
+version = "0.1.0"
+description = "中国环境监测总站空气质量数据获取工具：城市级/点位级实时与历史数据，输出 CSV / JSON / GeoPackage / Shapefile / 天地图底图交互 HTML"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "cnemc-air contributors" }]
+keywords = ["air-quality", "aqi", "cnemc", "gis", "crawler", "中国环境监测总站", "空气质量", "城市研究"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests>=2.28",
+    "pyyaml>=6.0",
+    "folium>=0.15",
+]
+
+[project.optional-dependencies]
+# geopandas 用于导出 GPKG/SHP 矢量成果（pyogrio/shapely/pyproj 随 geopandas 一并安装）
+vector = ["geopandas>=1.0"]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+cnemc-air = "cnemc_air.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

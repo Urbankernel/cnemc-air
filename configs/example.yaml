@@ -1,0 +1,55 @@
+# ────────────────────────────────────────────────────────────────
+# cnemc-air 示例配置（模板）
+#   复制本文件为 configs/config.yaml 后使用：
+#     cp configs/example.yaml configs/config.yaml        # Linux / macOS
+#     copy configs\example.yaml configs\config.yaml      # Windows
+#   然后直接运行（默认读取 configs/config.yaml，无需 -c）：
+#     cnemc-air run
+# ────────────────────────────────────────────────────────────────
+
+# 【目标城市】单城市：name 与 code 二选一（code 优先）
+city:
+  name: "上海市"
+  # code: "110000"
+
+# 【目标城市（多城市）】cities 列表优先于上面的 city；每项填 name 或 code（code 优先），
+#   也可直接写城市名字符串。抓取多个城市时，注释掉上面的 city 单城市字段，并取消注释 cities 列表并填好
+# cities:
+#   - name: "北京市"
+#   - name: "上海市"
+#   - code: "440100"        # 广州（用编码）
+#   - "深圳市"              # 纯字符串 = 城市名
+
+# 【采集范围】
+fetch:
+  city: true               # 城市级：实时六参数 / 近24小时 / 近14天日报
+  stations: true           # 点位级：全部点位实时
+  station_history: true    # 点位级：逐点位近24小时（点位数越多耗时越长）
+
+# 【请求控制】
+request:
+  qps: 1.0                 # 每秒请求数上限（相邻请求间隔 ≥ 1/qps）
+  max_retries: 5           # 单请求网络异常/限流最大重试次数（指数退避）
+  retry_base_seconds: 1.0  # 退避基数：等待 = base × 2^n + 随机抖动
+  timeout: 30.0            # 单次请求超时（秒）
+  sleep_between_stations: 1.0  # 逐点位历史采集间隔（秒）
+  verify: true             # TLS 证书校验；极少数网络环境证书链不完整时置 false
+
+# 【输出产物】
+outputs:
+  dir: runs                # run 目录根
+  csv: true                # utf-8-sig，Excel 直开
+  json: true               # 规范化记录数组
+  gpkg: true               # 需 geopandas（city.gpkg + station.gpkg 多图层）
+  shp: false               # 需 geopandas，老软件兼容时开启（一图层一文件）
+  html: true               # 天地图底图交互地图
+  raw: true                # 保存原始接口响应（审计/字段漂移追溯）
+
+# 【可视化】天地图底图
+viz:
+  basemap: tianditu        # tianditu | cartodb
+  # tianditu_tk: ""        # 可走 key_file 的 tk= 行或环境变量 TIANDITU_TK
+  # carto_key: ""          # CartoDB 底图 key（无 key 时 CartoDB 瓦片带水印）
+
+# 【可选】凭证文件（tk= 前缀行存天地图 tk，carto= 前缀行存 CartoDB key）
+key_file: "keys.txt"

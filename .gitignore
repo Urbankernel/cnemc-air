@@ -1,0 +1,39 @@
+# 凭证（天地图 tk / CartoDB key 等，绝不入库）
+configs/keys.txt
+configs/config.yaml
+.env
+*.key
+
+# 本地配置（由 configs/example.yaml 复制而来，用户自行填写参数，不入库）
+config.yaml
+
+# 运行产物
+runs/
+outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# 测试与工具缓存
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# 系统
+.DS_Store
+Thumbs.db
